@@ -58,7 +58,7 @@ header, main {
     transform: scale(1.2);
 }
 
-#primary-container, #secondary-container, #ternary-container {
+#primary-container, #secondary-container, #ternary-container, #pre-ternary, #post-ternary {
     border: 2px solid var(--secondary-color);
     border-radius: 10px;
     padding: 25px;
@@ -145,7 +145,7 @@ header, main {
 #ternary-container {
     gap: 0px;
     grid-template-columns: repeat(3, 1fr);
-    width: 50vh;
+    width: 43vh;
     height: 50vh;
 }
 
@@ -154,6 +154,15 @@ header, main {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#pre-ternary, .player-data, #post-ternary {
+    display: flex;
+    gap: 10px;
+}
+
+#pre-ternary, #post-ternary {
+    display: none;
 }
 
 footer {

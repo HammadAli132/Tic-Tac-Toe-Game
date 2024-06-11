@@ -4,7 +4,7 @@ const header = document.querySelector("header");
 const main = document.querySelector("main");
 const footer = document.querySelector("footer");
 const mainHeight = header.offsetHeight + footer.offsetHeight;
-main.style.cssText = `min-height: calc(100vh - ${mainHeight}px); flex-direction: "column";`;
+main.style.cssText = `min-height: calc(100vh - ${mainHeight}px); flex-direction: column; gap: 20px;`;
 const primaryCont = document.getElementById("primary-container");
 const secondaryCont = document.getElementById("secondary-container");
 const ternaryCont = document.getElementById("ternary-container");
@@ -17,6 +17,8 @@ const player1Sign = document.getElementById("sign1");
 const player2Name = document.getElementById("name2");
 const player2Sign = document.getElementById("sign2");
 const warning = document.getElementById("warning");
+const preTernary = document.getElementById("pre-ternary");
+const postTernary = document.getElementById("post-ternary");
 let twoPlayerEnabled = false;
 let player1 = {}, player2 = {};
 
@@ -48,16 +50,32 @@ function createPlayer(name, sign) {
     return {playerName, playerSign};
 }
 
-function startGameWithAI(player) {
+function startGameWithAI() {
     let gameBoard = getGameBoard();
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 9; i++)
         ternaryCont.appendChild(gameBoard[i]);
-        ternaryCont.style.display = "grid";
-    }
+    ternaryCont.style.display = "grid";
+    preTernary.style.display = "flex";
+    postTernary.style.display = "flex";
+    document.getElementById("p1-name").innerText = player1.playerName;
+    document.getElementById("p1-sign").innerText = player1.playerSign;
+    document.getElementById("player-name-with-turn").innerText = player1.playerName;
+    document.getElementById("player-sign-with-turn").innerText = player1.playerSign;
 }
-
-function startGameWithPlayer2(playerOne, playerTwo) {
-
+    
+function startGameWithPlayer2() {
+    let gameBoard = getGameBoard();
+    for (let i = 0; i < 9; i++)
+        ternaryCont.appendChild(gameBoard[i]);
+    ternaryCont.style.display = "grid";
+    preTernary.style.display = "flex";
+    postTernary.style.display = "flex";
+    document.getElementById("p1-name").innerText = player1.playerName;
+    document.getElementById("p1-sign").innerText = player1.playerSign;
+    document.getElementById("p2-name").innerText = player2.playerName;
+    document.getElementById("p2-sign").innerText = player2.playerSign;
+    document.getElementById("player-name-with-turn").innerText = player1.playerName;
+    document.getElementById("player-sign-with-turn").innerText = player1.playerSign;
 }
 
 startGameBtn.addEventListener("click", (e) => {
@@ -65,6 +83,7 @@ startGameBtn.addEventListener("click", (e) => {
     if (!twoPlayerEnabled) {
         player2Name.removeAttribute("required");
         player2Sign.removeAttribute("required");
+        document.getElementById("optional").style.display = "none";
     }
     if (player1Sign.value.toUpperCase() === player2Sign.value.toUpperCase()) {
         player2Sign.style.border = "2px solid yellow";
