@@ -158,7 +158,12 @@ header, main {
 
 #pre-ternary, .player-data, #post-ternary {
     display: flex;
-    gap: 10px;
+    gap: 20px;
+}
+
+.player-data {
+    justify-content: space-between;
+    align-items: center;
 }
 
 #pre-ternary, #post-ternary {

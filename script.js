@@ -59,8 +59,10 @@ function startGameWithAI() {
     postTernary.style.display = "flex";
     document.getElementById("p1-name").innerText = player1.playerName;
     document.getElementById("p1-sign").innerText = player1.playerSign;
-    document.getElementById("player-name-with-turn").innerText = player1.playerName;
-    document.getElementById("player-sign-with-turn").innerText = player1.playerSign;
+    document.getElementById("p2-name").innerText = player2.playerName;
+    document.getElementById("p2-sign").innerText = player2.playerSign;
+    document.getElementById("player-name-with-turn").innerText = player2.playerName;
+    document.getElementById("player-sign-with-turn").innerText = player2.playerSign;
 }
     
 function startGameWithPlayer2() {
@@ -83,7 +85,6 @@ startGameBtn.addEventListener("click", (e) => {
     if (!twoPlayerEnabled) {
         player2Name.removeAttribute("required");
         player2Sign.removeAttribute("required");
-        document.getElementById("optional").style.display = "none";
     }
     if (player1Sign.value.toUpperCase() === player2Sign.value.toUpperCase()) {
         player2Sign.style.border = "2px solid yellow";
@@ -94,9 +95,14 @@ startGameBtn.addEventListener("click", (e) => {
     player1 = createPlayer(player1Name.value.toUpperCase(), player1Sign.value.toUpperCase());
     player2 = createPlayer(player2Name.value.toUpperCase(), player2Sign.value.toUpperCase());
     if (!twoPlayerEnabled) {
-        startGameWithAI(player1);
+        player2.playerName = "Open AI";
+        if (player1.playerSign === 'O')
+            player2.playerSign = 'X';
+        else
+            player2.playerSign = 'O';
+        startGameWithAI();
     }
     else {
-        startGameWithPlayer2(player1, player2);
+        startGameWithPlayer2();
     }
 });
