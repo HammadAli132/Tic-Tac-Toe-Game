@@ -29,10 +29,14 @@ header {
     padding: 20px;
 }
 
-#navbar, #navlinks {
+#navbar, #navlinks, main, footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+}
+
+#navbar {
+    justify-content: space-between;
 }
 
 #logo {
@@ -40,7 +44,6 @@ header {
 }
 
 #navlinks {
-    justify-content: center;
     list-style: none;
     gap: 20px;
 }
@@ -54,10 +57,9 @@ header {
     transform: scale(1.2);
 }
 
+
+
 footer {
     margin-top: auto;
     padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
