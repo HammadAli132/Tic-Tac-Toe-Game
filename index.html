@@ -32,20 +32,28 @@
                 <div id="single-player" class="player-form">
                     <h3 class="player-heading">Player 1:</h3>
                     <label for="name1" class="label">Your Name:</label>
-                    <input type="text" name="player1Name" class="input" id="name1" placeholder="Your Name">
+                    <input type="text" name="player1Name" class="input" id="name1" placeholder="Your Name" required>
                     <label for="sign1" class="label">Your Sign:</label>
-                    <input type="text" name="player1Sign" class="input" id="sign1" placeholder="X">
+                    <input type="text" name="player1Sign" class="input" id="sign1" placeholder="X" required>
                 </div>
                 <div id="two-player" class="player-form">
                     <h3 class="player-heading">Player 2:</h3>
                     <label for="name2" class="label">Your Name:</label>
-                    <input type="text" name="player1Name" class="input" id="name2" placeholder="Your Name">
+                    <input type="text" name="player1Name" class="input" id="name2" placeholder="Your Name" required>
                     <label for="sign2" class="label">Your Sign:</label>
-                    <input type="text" name="player1Sign" class="input" id="sign2" placeholder="O">        
+                    <p id="warning">*Signs Match</p>
+                    <input type="text" name="player1Sign" class="input" id="sign2" placeholder="O" required>        
                 </div>
-                <input type="button" value="Start The Game!" id="start-game-btn">
+                <input type="submit" value="Start The Game!" id="start-game-btn">
             </form>
         </div>
+        <div id="pre-ternary">
+            
+        </div>
+        <div id="ternary-container">
+            
+        </div>
+        <div id="post-ternary"></div>
     </main>
     <footer>
         <p>Creator: Hammad Ali | Copyrights @ <span id="date"></span> | All rights reserved</p>

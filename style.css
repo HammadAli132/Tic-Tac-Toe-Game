@@ -58,7 +58,7 @@ header, main {
     transform: scale(1.2);
 }
 
-#primary-container, #secondary-container {
+#primary-container, #secondary-container, #ternary-container {
     border: 2px solid var(--secondary-color);
     border-radius: 10px;
     padding: 25px;
@@ -97,7 +97,7 @@ header, main {
     width: 8.5rem;
 }
 
-#secondary-container {
+#secondary-container, #ternary-container {
     display: none;
 }
 
@@ -132,6 +132,28 @@ header, main {
 .input:focus {
     outline: none;
     border: 2px solid var(--secondary-color);
+}
+
+#warning {
+    font-size: 12px;
+    color: yellow;
+    font-weight: lighter;
+    align-self: flex-end;
+    display: none;
+}
+
+#ternary-container {
+    gap: 0px;
+    grid-template-columns: repeat(3, 1fr);
+    width: 50vh;
+    height: 50vh;
+}
+
+.box {
+    border: 1px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 footer {
