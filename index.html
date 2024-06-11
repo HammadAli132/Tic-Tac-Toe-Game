@@ -19,7 +19,33 @@
         </nav>
     </header>
     <main>
-        
+        <div id="primary-container">
+            <h2 id="question">Who Do You Want To Play Against?</h3>
+            <div id="answers">
+                <button class="answer-btn" id="human-btn">Human</button>
+                <button class="answer-btn" id="ai-btn">AI</button>
+            </div>
+        </div>
+        <div id="secondary-container">
+            <h2 id="form-fill">Please Fill The Form</h2>
+            <form action="#" id="form">
+                <div id="single-player" class="player-form">
+                    <h3 class="player-heading">Player 1:</h3>
+                    <label for="name1" class="label">Your Name:</label>
+                    <input type="text" name="player1Name" class="input" id="name1" placeholder="Your Name">
+                    <label for="sign1" class="label">Your Sign:</label>
+                    <input type="text" name="player1Sign" class="input" id="sign1" placeholder="X">
+                </div>
+                <div id="two-player" class="player-form">
+                    <h3 class="player-heading">Player 2:</h3>
+                    <label for="name2" class="label">Your Name:</label>
+                    <input type="text" name="player1Name" class="input" id="name2" placeholder="Your Name">
+                    <label for="sign2" class="label">Your Sign:</label>
+                    <input type="text" name="player1Sign" class="input" id="sign2" placeholder="O">        
+                </div>
+                <input type="button" value="Start The Game!" id="start-game-btn">
+            </form>
+        </div>
     </main>
     <footer>
         <p>Creator: Hammad Ali | Copyrights @ <span id="date"></span> | All rights reserved</p>

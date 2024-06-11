@@ -9,6 +9,7 @@
 :root {
     --primary-color: #1c2e49;
     --secondary-color: #D81E5B;
+    --text-color: whitesmoke;
     --font: 'Permanent Marker', cursive;    
 }
 
@@ -25,11 +26,11 @@ body {
     flex-direction: column;
 }
 
-header {
+header, main {
     padding: 20px;
 }
 
-#navbar, #navlinks, main, footer {
+#navbar, #navlinks, main, footer, #primary-container, #secondary-container, #form, .player-form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,9 +58,87 @@ header {
     transform: scale(1.2);
 }
 
+#primary-container, #secondary-container {
+    border: 2px solid var(--secondary-color);
+    border-radius: 10px;
+    padding: 25px;
+    flex-direction: column;
+    gap: 50px;
+}
 
+#question, #form-fill {
+    text-align: center;
+}
+
+#answers {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin: 10px 0 10px 0;
+}
+
+.answer-btn, #start-game-btn {
+    width: 8em;
+    padding: 10px 0;
+    border: 2px solid var(--secondary-color);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-color);
+    transition: all .3s;
+}
+
+.answer-btn:hover, #start-game-btn:hover {
+    transform: scale(1.2);
+    background-color: var(--secondary-color);
+    cursor: pointer;
+}
+
+#start-game-btn {
+    width: 8.5rem;
+}
+
+#secondary-container {
+    display: none;
+}
+
+#form, .player-form {
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+}
+
+#form {
+    gap: 30px;
+}
+
+.player-heading {
+    text-decoration: underline;
+}
+
+.input {
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: #3a5e95;
+}
+
+.input::placeholder, .input {
+    color: var(--text-color);
+    font: var(--font);
+}
+
+.input:focus {
+    outline: none;
+    border: 2px solid var(--secondary-color);
+}
 
 footer {
     margin-top: auto;
     padding: 10px;
+}
+
+footer > p {
+    text-align: center;
 }
