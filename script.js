@@ -119,6 +119,7 @@ function startGameWithAI() {
     displayPlayerData();
     let paths = getWinningPaths();
     let filledBoxes = 0;
+    let endGame = false;
     displayPlayerTurn(player1.playerName, player1.playerSign);
     let boxArray = document.querySelectorAll('.box');
     boxArray.forEach((box) => {
@@ -129,17 +130,22 @@ function startGameWithAI() {
             box.style.background = "var(--primary-color)";
         });
         box.addEventListener('click', () => {
-            if (box.innerText === "") {
-                box.innerText = player1.playerSign;
-                if (checkForWin(player1.playerSign, boxArray, paths)) {
-                    runGameEndingProcedure(player1.playerName, "AI");
-                    return;
-                }
-                handleAIMove(boxArray, paths);
-                filledBoxes += 2;
-                if (filledBoxes > 9) {
-                    runGameEndingProcedure("", "AI");
-                    return;
+            if (!endGame) {
+                if (box.innerText === "") {
+                    box.innerText = player1.playerSign;
+                    if (checkForWin(player1.playerSign, boxArray, paths)) {
+                        runGameEndingProcedure(player1.playerName, "AI");
+                        endGame = true;
+                        return;
+                    }
+                    if (!endGame)
+                        handleAIMove(boxArray, paths);
+                    filledBoxes += 2;
+                    if (filledBoxes > 9) {
+                        runGameEndingProcedure("", "AI");
+                        endGame = true;
+                        return;
+                    }
                 }
             }
         });
@@ -152,7 +158,7 @@ function startGameWithPlayer2() {
     let paths = getWinningPaths();
     displayPlayerTurn(player1.playerName, player1.playerSign);
     let boxArray = document.querySelectorAll('.box');
-    let player1Turn = true;
+    let player1Turn = true, endGame = false;
     let filledBoxes = 0;
     boxArray.forEach((box) => {
         box.addEventListener('mouseenter', () => {
@@ -162,29 +168,34 @@ function startGameWithPlayer2() {
             box.style.background = "var(--primary-color)";
         });
         box.addEventListener('click', () => {
-            if (player1Turn && box.innerText === "") {
-                box.innerText = player1.playerSign;
-                if (checkForWin(player1.playerSign, boxArray, paths)) {
-                    runGameEndingProcedure(player1.playerName);
+            if (!endGame) {
+                if (player1Turn && box.innerText === "") {
+                    box.innerText = player1.playerSign;
+                    if (checkForWin(player1.playerSign, boxArray, paths)) {
+                        runGameEndingProcedure(player1.playerName);
+                        endGame = true;
+                        return;
+                    }
+                    displayPlayerTurn(player2.playerName, player2.playerSign);
+                    player1Turn = false;
+                    filledBoxes++;
+                }
+                else if (!player1Turn && box.innerText === "") {
+                    box.innerText = player2.playerSign;
+                    if (checkForWin(player2.playerSign, boxArray, paths)) {
+                        runGameEndingProcedure(player2.playerName, "pvp");
+                        endGame = true;
+                        return;
+                    }
+                    displayPlayerTurn(player1.playerName, player1.playerSign, "pvp");
+                    player1Turn = true;
+                    filledBoxes++;
+                }
+                if (filledBoxes === 9) {
+                    runGameEndingProcedure("", "pvp");
+                    endGame = true;
                     return;
                 }
-                displayPlayerTurn(player2.playerName, player2.playerSign);
-                player1Turn = false;
-                filledBoxes++;
-            }
-            else if (!player1Turn && box.innerText === "") {
-                box.innerText = player2.playerSign;
-                if (checkForWin(player2.playerSign, boxArray, paths)) {
-                    runGameEndingProcedure(player2.playerName, "pvp");
-                    return;
-                }
-                displayPlayerTurn(player1.playerName, player1.playerSign, "pvp");
-                player1Turn = true;
-                filledBoxes++;
-            }
-            if (filledBoxes === 9) {
-                runGameEndingProcedure("", "pvp");
-                return;
             }
         });
     });
