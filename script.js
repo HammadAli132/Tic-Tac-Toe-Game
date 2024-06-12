@@ -11,7 +11,6 @@ const ternaryCont = document.getElementById("ternary-container");
 const humanBtn = document.getElementById("human-btn");
 const aiBtn = document.getElementById("ai-btn");
 const twoPlayersForm = document.getElementById("two-player");
-const startGameBtn = document.getElementById("start-game-btn");
 const player1Name = document.getElementById("name1");
 const player1Sign = document.getElementById("sign1");
 const player2Name = document.getElementById("name2");
@@ -19,6 +18,7 @@ const player2Sign = document.getElementById("sign2");
 const warning = document.getElementById("warning");
 const preTernary = document.getElementById("pre-ternary");
 const postTernary = document.getElementById("post-ternary");
+const form = document.getElementById("form");
 let twoPlayerEnabled = false;
 let player1 = {}, player2 = {};
 
@@ -31,6 +31,8 @@ humanBtn.addEventListener("click", () => {
 aiBtn.addEventListener("click", () => {
     primaryCont.style.display = "none";
     secondaryCont.style.display = "flex";
+    player2Name.removeAttribute("required");
+    player2Sign.removeAttribute("required");
     twoPlayersForm.style.display = "none";
 });
 
@@ -50,43 +52,188 @@ function createPlayer(name, sign) {
     return {playerName, playerSign};
 }
 
-function startGameWithAI() {
+function displayPlayerData() {
+    document.getElementById("p1-name").innerText = player1.playerName;
+    document.getElementById("p1-sign").innerText = player1.playerSign;
+    document.getElementById("p2-name").innerText = player2.playerName;
+    document.getElementById("p2-sign").innerText = player2.playerSign;
+}
+    
+function displayPlayerTurn(name, sign) {
+    document.getElementById("player-name-with-turn").innerText = name;
+    document.getElementById("player-sign-with-turn").innerText = sign;
+}
+
+function displayGameGrid() {
     let gameBoard = getGameBoard();
     for (let i = 0; i < 9; i++)
         ternaryCont.appendChild(gameBoard[i]);
     ternaryCont.style.display = "grid";
     preTernary.style.display = "flex";
     postTernary.style.display = "flex";
-    document.getElementById("p1-name").innerText = player1.playerName;
-    document.getElementById("p1-sign").innerText = player1.playerSign;
-    document.getElementById("p2-name").innerText = player2.playerName;
-    document.getElementById("p2-sign").innerText = player2.playerSign;
-    document.getElementById("player-name-with-turn").innerText = player2.playerName;
-    document.getElementById("player-sign-with-turn").innerText = player2.playerSign;
+}
+
+function getWinningPaths() {
+    return [
+        [0, 1, 2],
+        [2, 5, 8],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [3, 4, 5],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+}
+
+function runGameEndingProcedure(name, mode) {
+    const gameState = document.createElement("div");
+    gameState.innerHTML = `<div class="player-data" id="game-state">
+                           <button id="game-restart" class="answer-btn">Restart The Game</button>
+                           <button id="game-reset" class="answer-btn">Reset The Game</button>
+                           </div>`;
+    if (name !== "")
+        document.getElementById("winner-details").innerHTML = `<h3>The Winner Is ${name}</h3>`;
+    else 
+        document.getElementById("winner-details").innerHTML = `<h3>The Game Is A Draw</h3>`;
+
+    postTernary.appendChild(gameState);
+    document.getElementById("game-reset").addEventListener('click', () => {
+        let boxArray = document.querySelectorAll('.box');
+        boxArray.forEach((box) => {
+            ternaryCont.removeChild(box);
+        });
+        document.getElementById("winner-details").innerHTML = `<div class="player-data" id="winner-details">
+                <h3><span id="player-name-with-turn"></span>'s Turn Has Sign: <span id="player-sign-with-turn"></span></h3>
+            </div>`;
+        postTernary.removeChild(gameState);
+        if (mode === "AI")
+            startGameWithAI();
+        else 
+            startGameWithPlayer2();
+    });
+}
+
+function startGameWithAI() {
+    displayGameGrid();
+    displayPlayerData();
+    let paths = getWinningPaths();
+    let filledBoxes = 0;
+    displayPlayerTurn(player1.playerName, player1.playerSign);
+    let boxArray = document.querySelectorAll('.box');
+    boxArray.forEach((box) => {
+        box.addEventListener('mouseenter', () => {
+            box.style.background = "#5f7ca9";
+        });
+        box.addEventListener('mouseleave', () => {
+            box.style.background = "var(--primary-color)";
+        });
+        box.addEventListener('click', () => {
+            if (box.innerText === "") {
+                box.innerText = player1.playerSign;
+                if (checkForWin(player1.playerSign, boxArray, paths)) {
+                    runGameEndingProcedure(player1.playerName, "AI");
+                    return;
+                }
+                handleAIMove(boxArray, paths);
+                filledBoxes += 2;
+                if (filledBoxes > 9) {
+                    runGameEndingProcedure("", "AI");
+                    return;
+                }
+            }
+        });
+    });
 }
     
 function startGameWithPlayer2() {
-    let gameBoard = getGameBoard();
-    for (let i = 0; i < 9; i++)
-        ternaryCont.appendChild(gameBoard[i]);
-    ternaryCont.style.display = "grid";
-    preTernary.style.display = "flex";
-    postTernary.style.display = "flex";
-    document.getElementById("p1-name").innerText = player1.playerName;
-    document.getElementById("p1-sign").innerText = player1.playerSign;
-    document.getElementById("p2-name").innerText = player2.playerName;
-    document.getElementById("p2-sign").innerText = player2.playerSign;
-    document.getElementById("player-name-with-turn").innerText = player1.playerName;
-    document.getElementById("player-sign-with-turn").innerText = player1.playerSign;
+    displayGameGrid();
+    displayPlayerData();
+    let paths = getWinningPaths();
+    displayPlayerTurn(player1.playerName, player1.playerSign);
+    let boxArray = document.querySelectorAll('.box');
+    let player1Turn = true;
+    let filledBoxes = 0;
+    boxArray.forEach((box) => {
+        box.addEventListener('mouseenter', () => {
+            box.style.background = "#5f7ca9";
+        });
+        box.addEventListener('mouseleave', () => {
+            box.style.background = "var(--primary-color)";
+        });
+        box.addEventListener('click', () => {
+            if (player1Turn && box.innerText === "") {
+                box.innerText = player1.playerSign;
+                if (checkForWin(player1.playerSign, boxArray, paths)) {
+                    runGameEndingProcedure(player1.playerName);
+                    return;
+                }
+                displayPlayerTurn(player2.playerName, player2.playerSign);
+                player1Turn = false;
+                filledBoxes++;
+            }
+            else if (!player1Turn && box.innerText === "") {
+                box.innerText = player2.playerSign;
+                if (checkForWin(player2.playerSign, boxArray, paths)) {
+                    runGameEndingProcedure(player2.playerName, "pvp");
+                    return;
+                }
+                displayPlayerTurn(player1.playerName, player1.playerSign, "pvp");
+                player1Turn = true;
+                filledBoxes++;
+            }
+            if (filledBoxes === 9) {
+                runGameEndingProcedure("", "pvp");
+                return;
+            }
+        });
+    });
 }
 
-startGameBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (!twoPlayerEnabled) {
-        player2Name.removeAttribute("required");
-        player2Sign.removeAttribute("required");
+function handleAIMove(boxArray, paths) {
+    let notFilledIndex;
+    for (let path of paths) {
+        let boxesFilled = 0;
+        for (let index of path) {
+            if (boxArray[index].innerText === player1.playerSign) {
+                boxesFilled++;
+            } 
+            else if (boxArray[index].innerText === "") {
+                notFilledIndex = index;
+            }
+        }
+        if (boxesFilled === 2 && notFilledIndex !== undefined) {
+            boxArray[notFilledIndex].innerText = player2.playerSign;
+            if (checkForWin(player2.playerSign, boxArray, paths)) {
+                runGameEndingProcedure(player2.playerName);
+            }
+            return;
+        }
     }
-    if (player1Sign.value.toUpperCase() === player2Sign.value.toUpperCase()) {
+    for (let box of boxArray) { // if no two boxes are filled in a row or diagonal, the pick the first empty box
+        if (box.innerText === "") {
+            box.innerText = player2.playerSign;
+            if (checkForWin(player2.playerSign, boxArray, paths)) {
+                runGameEndingProcedure(player2.playerName);
+            }
+            break;
+        }
+    }
+}
+
+function checkForWin(playerSign, boxArray, paths) {
+    for (let path of paths) {
+        if (boxArray[path[0]].innerText === playerSign &&
+            boxArray[path[1]].innerText === playerSign &&
+            boxArray[path[2]].innerText === playerSign)
+            return true;
+    }
+    return false;
+}
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (twoPlayerEnabled && player1Sign.value.toUpperCase() === player2Sign.value.toUpperCase()) {
         player2Sign.style.border = "2px solid yellow";
         warning.style.display = "block";
         return;

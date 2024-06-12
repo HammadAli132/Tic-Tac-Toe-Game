@@ -78,8 +78,8 @@ header, main {
 }
 
 .answer-btn, #start-game-btn {
-    width: 8em;
-    padding: 10px 0;
+    min-width: 8em;
+    padding: 10px 5px;
     border: 2px solid var(--secondary-color);
     border-radius: 10px;
     background: transparent;
@@ -157,17 +157,14 @@ header, main {
 }
 
 #pre-ternary, .player-data, #post-ternary {
-    display: flex;
+    display: none;
     gap: 20px;
 }
 
 .player-data {
+    display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-#pre-ternary, #post-ternary {
-    display: none;
 }
 
 footer {
