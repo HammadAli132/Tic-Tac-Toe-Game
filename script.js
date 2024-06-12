@@ -151,6 +151,7 @@ function startGameWithAI() {
                     }
                 }
             }
+            box.style.background = "var(--primary-color)";
         });
     });
 }
@@ -200,6 +201,7 @@ function startGameWithPlayer2() {
                     return;
                 }
             }
+            box.style.background = "var(--primary-color)";
         });
     });
 }
