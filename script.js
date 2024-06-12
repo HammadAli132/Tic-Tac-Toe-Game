@@ -98,7 +98,7 @@ function runGameEndingProcedure(name, mode) {
         document.getElementById("winner-details").innerHTML = `<h3>The Game Is A Draw</h3>`;
 
     postTernary.appendChild(gameState);
-    document.getElementById("game-reset").addEventListener('click', () => {
+    document.getElementById("game-restart").addEventListener('click', () => {
         let boxArray = document.querySelectorAll('.box');
         boxArray.forEach((box) => {
             ternaryCont.removeChild(box);
@@ -111,6 +111,9 @@ function runGameEndingProcedure(name, mode) {
             startGameWithAI();
         else 
             startGameWithPlayer2();
+    });
+    document.getElementById("game-reset").addEventListener("click", () => {
+        location.reload();
     });
 }
 
